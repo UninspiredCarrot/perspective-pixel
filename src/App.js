@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import EntryForm from './EntryForm';
+import EntryList from './EntryList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [entries, setEntries] = useState([]);
+
+    const fetchEntries = async () => {
+        try {
+            const response = await axios.get('http://34.250.30.148:3000/api/entries');
+            setEntries(response.data);
+        } catch (error) {
+            console.error('Error fetching entries:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchEntries();
+    }, []);
+
+    const handleEntrySubmit = (newEntry) => {
+        setEntries((prevEntries) => [...prevEntries, newEntry]);
+    };
+
+    return (
+        <div>
+            <h1>Gratitude Map</h1>
+            <EntryForm onEntrySubmit={handleEntrySubmit} />
+            <EntryList entries={entries} />
+        </div>
+    );
+};
 
 export default App;
