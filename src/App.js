@@ -11,7 +11,7 @@ const App = () => {
 
     const fetchEntries = async () => {
         try {
-            const response = await Axios.get('http://3.255.213.246:3000/api/entries');
+            const response = await Axios.get('https://perspectivepixel.zapto.org/api/entries');
             setEntries(response.data);
         } catch (error) {
             console.error('Error fetching entries:', error);
@@ -20,7 +20,7 @@ const App = () => {
 
     const fetchQuestion = async () => {
         try {
-            const response = await Axios.get('http://3.255.213.246:3000/api/question');
+            const response = await Axios.get('https://perspectivepixel.zapto.org/api/question');
             setQuestion(response.data.question);
         } catch (error) {
             console.error('Error fetching question:', error);
@@ -62,7 +62,7 @@ const App = () => {
         };
 
         try {
-            await Axios.post('http://3.255.213.246:3000/api/entries', newEntry);
+            await Axios.post('https://perspectivepixel.zapto.org/api/entries', newEntry);
             localStorage.setItem(getTodayKey(), 'true');
             setIsAnswered(true);
             fetchEntries();
