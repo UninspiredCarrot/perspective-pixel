@@ -10,12 +10,12 @@ const LeafIcon = L.Icon.extend({
         iconAnchor: [5, 25], // The tip of the leaf will be at the point
         shadowAnchor: [10, 35], // Position of the shadow
         popupAnchor: [0, -20] // Adjust popup position relative to the icon
-    }});
+    }
+});
 
-const leafIcon = new LeafIcon({iconUrl: "https://docs.maptiler.com/leaflet/assets/leaf_marker.png"});
+const leafIcon = new LeafIcon({ iconUrl: "https://docs.maptiler.com/leaflet/assets/leaf_marker.png" });
 
-
-const MapComponent = ({ entries, onAddEntry }) => {
+const MapComponent = ({ entries }) => {
     useEffect(() => {
         const map = L.map('map').setView([20, 0], 2); // Centered on the world
 
@@ -24,40 +24,29 @@ const MapComponent = ({ entries, onAddEntry }) => {
             attribution: '© OpenStreetMap',
         }).addTo(map);
 
-        // Add markers for existing entries using custom icons
-        entries.forEach(entry => {
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+
+        // Filter entries for today's date
+        const todayEntries = entries.filter(entry => {
+            const entryDate = new Date(entry.timestamp);
+            // Check if the date object is valid
+            return !isNaN(entryDate) && entryDate.toISOString().split('T')[0] === today;
+        });
+
+        // Add markers for today's entries
+        todayEntries.forEach(entry => {
             L.marker([entry.latitude, entry.longitude], { icon: leafIcon })
                 .addTo(map)
                 .on('click', () => {
-                    alert(entry.text); // Replace with your modal or display logic
+                    alert(entry.text); // Show the answer for the clicked entry
                 });
-        });
-
-        // Handle click events on the map
-        map.on('click', async (event) => {
-            const { lat, lng } = event.latlng;
-
-            // Prompt user for input
-            const text = prompt('Enter your entry text:');
-            if (text) {
-                try {
-                    await onAddEntry(lat, lng, text);
-                    // Add a new marker for the newly created entry
-                    L.marker([lat, lng], { icon: leafIcon }).addTo(map)
-                        .on('click', () => {
-                            alert(text); // Replace with your modal or display logic
-                        });
-                } catch (error) {
-                    console.error('Error adding entry:', error);
-                    alert('Failed to add entry. Please try again.');
-                }
-            }
         });
 
         return () => {
             map.remove(); // Cleanup map on unmount
         };
-    }, [entries, onAddEntry]);
+    }, [entries]);
 
     return <div id="map" style={{ height: '600px', width: '100%' }} />;
 };
