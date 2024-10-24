@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Axios from 'axios';
 import MapComponent from './MapComponent';
 
 const App = () => {
     const [entries, setEntries] = useState([]);
     const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState(''); // To store the user's answer
-    const [isAnswered, setIsAnswered] = useState(false); // To track if user has answered
-    const [location, setLocation] = useState(null); // To store latitude and longitude
+    const [answer, setAnswer] = useState('');
+    const [isAnswered, setIsAnswered] = useState(false);
+    const [location, setLocation] = useState(null);
 
     const fetchEntries = async () => {
         try {
@@ -29,7 +29,7 @@ const App = () => {
 
     const getLocation = async () => {
         try {
-            const response = await Axios.get('http://ip-api.com/json'); // Example IP geolocation API
+            const response = await Axios.get('http://ip-api.com/json');
             setLocation({
                 latitude: response.data.lat,
                 longitude: response.data.lon,
@@ -40,19 +40,18 @@ const App = () => {
     };
 
     const getTodayKey = () => {
-        // Get the current date in 'YYYY-MM-DD' format
         const today = new Date().toISOString().split('T')[0];
-        return `answered_${today}`; // Use this as a key to track daily answers
+        return `answered_${today}`;
     };
 
-    const checkIfAnswered = () => {
+    const checkIfAnswered = useCallback(() => {
         const todayKey = getTodayKey();
         const hasAnswered = localStorage.getItem(todayKey);
-        setIsAnswered(!!hasAnswered); // If key exists, set isAnswered to true
-    };
+        setIsAnswered(!!hasAnswered);
+    }, []);
 
     const addEntry = async (text) => {
-        if (isAnswered || !location) return; // Prevent multiple submissions
+        if (isAnswered || !location) return;
 
         const newEntry = {
             latitude: location.latitude,
@@ -64,16 +63,16 @@ const App = () => {
 
         try {
             await Axios.post('http://3.255.213.246:3000/api/entries', newEntry);
-            localStorage.setItem(getTodayKey(), 'true'); // Mark the answer for today in local storage
-            setIsAnswered(true); // Update state to reflect that user has answered
-            fetchEntries(); // Refresh entries to display the new one
+            localStorage.setItem(getTodayKey(), 'true');
+            setIsAnswered(true);
+            fetchEntries();
         } catch (error) {
             console.error('Error adding entry:', error);
         }
     };
 
     const handleSubmitAnswer = () => {
-        if (!answer.trim()) return; // If the answer is empty, don't submit
+        if (!answer.trim()) return;
         addEntry(answer);
     };
 
@@ -81,8 +80,8 @@ const App = () => {
         fetchEntries();
         fetchQuestion();
         getLocation();
-        checkIfAnswered(); // Check if the user has already answered when the component loads
-    }, []);
+        checkIfAnswered(); // Ensure it's listed as a dependency
+    }, [checkIfAnswered]); // Add checkIfAnswered as a dependency
 
     return (
         <div>
