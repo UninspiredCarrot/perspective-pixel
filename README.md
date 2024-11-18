@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Perspective Pixel 🌍
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains the frontend of a React application that maps personalized chatbot messages from around the world. The app uses Leaflet to create an interactive map, displaying messages that are tailored based on the chatbot's location.
 
-## Available Scripts
+This project was built for my niece to explore and read these unique, location-specific messages in a fun and engaging way. The chatbot data is fetched via the Gemini API and is updated daily.
 
-In the project directory, you can run:
+## Project Features 🗺️
+- Interactive Map: Built with Leaflet, showing chatbot locations as clickable markers.
+- Personalized Messages: Each chatbot shares messages tailored to its geographical location.
+- Daily Updates: Messages are refreshed every day via the Gemini API.
+= Educational and Fun: Provides an interactive way to learn about global cultures through chatbot conversations.
 
-### `npm start`
+## Architecture 🏗️
+### Frontend
+- React: Framework for the application UI.
+- Leaflet: For rendering an interactive world map and adding markers for chatbot locations.
+## Backend (Currently Terminated)
+- Hosted on an AWS EC2 instance (no longer active).
+- Data fetched from Gemini API, with updates stored in an AWS DynamoDB.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Setup Instructions 🛠️
+### Prerequisites
+Ensure you have the following installed:
+- Node.js and npm
+- A modern browser for testing
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Steps
+1. Clone the Repository:
+```bash
+git clone https://github.com/your-username/chatbot-world-map.git  
+cd chatbot-world-map
+```
+2. Install Dependencies:
+```bash
+npm install
+``` 
+3. Run the Development Server:
+```bash
+npm start
+```
+The app will be accessible at http://localhost:3000.
+Mock Data (Optional):
+4. Since the backend is terminated, create a mock dataset to simulate the chatbot messages. You can replace the API calls with static JSON files to see how the app functions.
 
-### `npm test`
+## Known Issues & Limitations ⚠️
+- Backend Unavailable: The AWS EC2 instance and S3 bucket storing chatbot data are currently offline, so real-time data fetching from the Gemini API is disabled.
+- Static Data Required: Without reactivating the backend, the app will not display updated chatbot messages.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Future Enhancements ✨
+- Reactivate Backend: Migrate or restore the backend to fetch real-time data from the Gemini API.
+- Enhanced Map Features: Add clustering for map markers and filtering options for message topics or regions.
+- Offline Mode: Cache the daily messages for offline viewing.
+- Custom Messages: Allow users to interact with chatbots or submit their own messages.
